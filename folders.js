@@ -1,8 +1,9 @@
 /* ---------------------------------------------------------------
-   Reordenar las carpetas con el dedo o el mouse.
-   Se agarra una carpeta, se arrastra verticalmente y las demás se
-   corren para hacerle lugar (con una animación FLIP), sea cual sea
-   su alto real (las preguntas ocupan una o dos líneas distintas).
+   Las carpetas empiezan cerradas: solo se ve la pregunta. Tocar una
+   la abre (se queda abierta, mostrando la respuesta) o la cierra si
+   ya estaba abierta. Arrastrarla la reordena en la pila y, mientras
+   se arrastra, también se ve su respuesta — al soltarla vuelve a su
+   estado previo (abierta o cerrada).
 ----------------------------------------------------------------*/
 (function () {
   'use strict';
@@ -21,6 +22,9 @@
   var desiredTop = 0;
 
   stack.addEventListener('pointerdown', function (e) {
+    // Un link de la respuesta se maneja solo: ni drag ni toggle.
+    if (e.target.closest('a')) return;
+
     var item = e.target.closest('.folder-tab');
     if (!item || dragEl) return;
 
@@ -65,6 +69,7 @@
     dragging = true;
     dragEl.classList.add('folder-tab--dragging');
     dragEl.style.zIndex = 999;
+    reveal(dragEl); // mientras se saca de la pila, se lee la respuesta
     try { dragEl.setPointerCapture(pointerId); } catch (err) {}
   }
 
@@ -147,6 +152,52 @@
     });
   }
 
+  /* ---------------- Abrir / cerrar la respuesta ---------------- */
+
+  function answerOf(card) {
+    return card.querySelector('.folder-tab__answer');
+  }
+
+  function isOpen(card) {
+    return card.classList.contains('folder-tab--open');
+  }
+
+  // Mide el alto real del contenido (sin el límite de max-height)
+  // para poder animar hacia ese valor exacto en vez de adivinar uno.
+  function naturalHeight(answer) {
+    var prevMax = answer.style.maxHeight;
+    var prevTransition = answer.style.transition;
+    answer.style.transition = 'none';
+    answer.style.maxHeight = 'none';
+    var h = answer.scrollHeight;
+    answer.style.maxHeight = prevMax;
+    // Fuerza el reflow antes de restaurar la transición.
+    void answer.offsetHeight;
+    answer.style.transition = prevTransition;
+    return h;
+  }
+
+  // Muestra la respuesta sin marcar la carpeta como "abierta" —
+  // se usa mientras se arrastra, y se revierte sola al soltarla.
+  function reveal(card) {
+    var answer = answerOf(card);
+    answer.style.maxHeight = naturalHeight(answer) + 'px';
+    answer.removeAttribute('inert');
+  }
+
+  function setOpen(card, open) {
+    var answer = answerOf(card);
+    if (open) {
+      card.classList.add('folder-tab--open');
+      answer.style.maxHeight = naturalHeight(answer) + 'px';
+      answer.removeAttribute('inert');
+    } else {
+      card.classList.remove('folder-tab--open');
+      answer.style.maxHeight = '0px';
+      answer.setAttribute('inert', '');
+    }
+  }
+
   function endDrag() {
     var wasDragging = dragging;
     var el = dragEl;
@@ -155,16 +206,24 @@
     pointerId = null;
     dragging = false;
 
-    if (!wasDragging) return;
+    if (!wasDragging) {
+      // Fue un toque corto, no un arrastre: alterna abierta/cerrada.
+      setOpen(el, !isOpen(el));
+      return;
+    }
 
     var list = items();
     var idx = list.indexOf(el);
     el.style.setProperty('--z', idx + 1);
 
     // Al sacar la clase vuelve a la transición base (altura + transform),
-    // así se anima junta: el cuerpo se pliega y la carpeta cae a su lugar.
+    // así se anima junta: la carpeta cae a su lugar en la pila.
     el.classList.remove('folder-tab--dragging');
     el.style.zIndex = '';
     el.style.transform = '';
+
+    // Vuelve a mostrar u ocultar la respuesta según cómo estaba
+    // antes de agarrarla (recalculando el alto por si cambió el layout).
+    setOpen(el, isOpen(el));
   }
 })();

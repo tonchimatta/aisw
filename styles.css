@@ -211,7 +211,9 @@ a:hover {
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: none;
+  /* Deja pasar el scroll vertical con el dedo; los dígitos igual
+     reaccionan (repelencia, disparo, arrastre) vía JS. */
+  touch-action: pan-y;
 }
 
 #edge-left  { left: 0; }
@@ -252,10 +254,9 @@ a:hover {
 
 /* ---------------------------------------------------------------
    Cajón de carpetas
-   Cada botón es una carpeta de la pila, con la pregunta completa
-   (Exposure) arriba y la respuesta (Inter, con sus links) abajo.
-   Se pueden reordenar arrastrándolas. El click para una animación
-   de apertura más elaborada queda para una próxima iteración.
+   Cada carpeta muestra solo la pregunta (Exposure). La respuesta
+   (Inter, con sus links) está oculta y se revela al tocar la
+   carpeta (queda abierta) o mientras se la arrastra para reordenar.
 ----------------------------------------------------------------*/
 .folders {
   margin-top: clamp(56px, 10vh, 96px);
@@ -302,7 +303,8 @@ a:hover {
   margin-top: 0;
 }
 
-.folder-tab:hover {
+.folder-tab:hover,
+.folder-tab--open {
   transform: translateY(-6px) rotate(-0.3deg);
   box-shadow:
     0 -1px 0 rgba(0, 0, 0, 0.06) inset,
@@ -337,16 +339,36 @@ a:hover {
   max-width: 46ch;
 }
 
-/* Respuesta, en Inter, debajo de la pregunta */
+/* Respuesta, en Inter, debajo de la pregunta.
+   Arranca colapsada (alto 0) — el alto real al abrirla lo calcula
+   folders.js y lo pone inline, así la transición es pareja sin
+   importar cuánto texto tenga cada una. */
 .folder-tab__answer {
   display: block;
   font-family: var(--body);
   font-size: clamp(14px, 1.7vw, 16px);
   line-height: 1.55;
+  max-width: 52ch;
+  max-height: 0;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 1px solid transparent;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 300ms ease,
+    opacity 200ms ease,
+    margin-top 300ms ease,
+    padding-top 300ms ease,
+    border-color 300ms ease;
+}
+
+.folder-tab--open .folder-tab__answer,
+.folder-tab--dragging .folder-tab__answer {
   margin-top: 14px;
   padding-top: 14px;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-  max-width: 52ch;
+  border-top-color: rgba(0, 0, 0, 0.12);
+  opacity: 1;
 }
 
 .folder-tab__answer p {

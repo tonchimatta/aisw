@@ -30,7 +30,7 @@
   --edge-width: 46px;
 
   --display: "Exposure Trial", Georgia, "Times New Roman", serif;
-  --body: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  --body: "Inter", Helvetica, "Helvetica Neue", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -107,6 +107,9 @@ h2 { font-size: clamp(24px, 4vw, 32px); margin: 2em 0 0.5em; }
 
 .prose p {
   margin: 0 0 1.5em;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
 }
 
 .prose ul {
@@ -119,6 +122,8 @@ h2 { font-size: clamp(24px, 4vw, 32px); margin: 2em 0 0.5em; }
   position: relative;
   padding-left: 20px;
   margin-bottom: 1em;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .prose li::before {

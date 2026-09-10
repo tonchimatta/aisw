@@ -15,17 +15,10 @@ o se sirve con cualquier server estático (`python3 -m http.server`).
 `<header class="title-slot"></header>` de `index.html` y descomentá la línea del
 `<img class="title-image">` que está justo arriba.
 
-**Tipografía Exposure Trial.** Poné los archivos en `fonts/` con estos nombres:
-
-```
-fonts/ExposureTrial-Regular.woff2   (o .otf)
-fonts/ExposureTrial-Italic.woff2    (o .otf)
-```
-
-Se usa en títulos, subtítulos (`.subtitle`, en itálica), botones (`.button`),
-los términos AGI/ASI y el footer. Mientras los archivos no estén, cae a un serif
-del sistema sin romper nada. El cuerpo de texto es Helvetica; los dígitos de los
-bordes, Inter con cifras tabulares.
+**Tipografía Exposure Trial.** Ya están en `fonts/ExposureTrial-Regular.otf` y
+`fonts/ExposureTrial-Italic.otf`. Se usa en títulos, subtítulos (`.subtitle`, en
+itálica), botones (`.button`), los términos AGI/ASI y el footer. El cuerpo de
+texto y los dígitos de los bordes usan Inter (cargada desde Google Fonts).
 
 ## Ajustes de los bordes
 

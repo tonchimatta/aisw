@@ -43,46 +43,69 @@
   <section class="folders" aria-label="Preguntas frecuentes">
     <p class="folders__caption">Elegí una carpeta. Se pueden reordenar arrastrándolas.</p>
     <div class="folders__stack">
-      <button class="folder-tab" type="button" style="--tab-color:#6F7D4E; --tab-ink:#F3EFE6; --tab-pos:6%; --z:1" data-question="que-puedes-hacer">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">riesgo existencial</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Qué puedes hacer tú sobre el riesgo existencial?</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#F3EFE6; --tab-ink:#1A1E2E; --tab-pos:30%; --z:2" data-question="investigar">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">investigar</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Interesado en investigar en el tema? (no se requiere experiencia previa)</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#2E3F7F; --tab-ink:#F3EFE6; --tab-pos:54%; --z:3" data-question="aprender-estructurado">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">aprender gratis</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Quiero aprender más del tema de una forma estructurada, con expertos, y gratis</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#B05038; --tab-ink:#F3EFE6; --tab-pos:6%; --z:4" data-question="no-me-compro-agi">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">escéptica de AGI</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">MMMM, aún no me compro que vayamos a llegar a AGI</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#6F7D4E; --tab-ink:#F3EFE6; --tab-pos:30%; --z:5" data-question="escenarios-optimistas">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">optimismo</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Hay escenarios más optimistas?</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#F3EFE6; --tab-ink:#1A1E2E; --tab-pos:54%; --z:6" data-question="todo-es-terrible">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">usar IA</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Esto significa que todo el mundo que usa IA es terrible y horrible y nadie debería volver a usarla?</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#2E3F7F; --tab-ink:#F3EFE6; --tab-pos:6%; --z:7" data-question="newsletters">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">newsletters</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Qué newsletters puedo seguir que me actualicen en el tema?</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#B05038; --tab-ink:#F3EFE6; --tab-pos:30%; --z:8" data-question="actores-ai-safety">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">quién es quién</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Quiero conocer a todos los actores involucrados en AI safety</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#6F7D4E; --tab-ink:#F3EFE6; --tab-pos:54%; --z:9" data-question="crear-contenido">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">crear contenido</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Quiero crear contenido de AI safety!</span></span>
-      </button>
-      <button class="folder-tab" type="button" style="--tab-color:#F3EFE6; --tab-ink:#1A1E2E; --tab-pos:6%; --z:10" data-question="iniciativa-estudiantil">
-        <span class="folder-tab__tab"><span class="folder-tab__tab-label">comunidad</span></span>
-        <span class="folder-tab__body"><span class="folder-tab__full">Quiero unirme a una iniciativa estudiantil de estos temas</span></span>
-      </button>
+      <div class="folder-tab" style="--tab-color:#6F7D4E; --tab-ink:#F3EFE6; --z:1" data-question="que-puedes-hacer" tabindex="0">
+        <span class="folder-tab__label">Qué puedes hacer tú sobre el riesgo existencial?</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://80000hours.org/articles/how-to-reduce-existential-risk/" target="_blank" rel="noopener">80000hours.org/articles/how-to-reduce-existential-risk</a></p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#F3EFE6; --tab-ink:#1A1E2E; --z:2" data-question="investigar" tabindex="0">
+        <span class="folder-tab__label">Interesado en investigar en el tema? (no se requiere experiencia previa)</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://sparai.org" target="_blank" rel="noopener">sparai.org</a></p>
+          <p>Creado por un chileno!!! Recién levantaron 50 millones de dólares para trabajar en esto.</p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#2E3F7F; --tab-ink:#F3EFE6; --z:3" data-question="aprender-estructurado" tabindex="0">
+        <span class="folder-tab__label">Quiero aprender más del tema de una forma estructurada, con expertos, y gratis</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://bluedot.org" target="_blank" rel="noopener">bluedot.org</a></p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#B05038; --tab-ink:#F3EFE6; --z:4" data-question="no-me-compro-agi" tabindex="0">
+        <span class="folder-tab__label">MMMM, aún no me compro que vayamos a llegar a AGI</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://ai-2027.com/es" target="_blank" rel="noopener">ai-2027.com/es</a></p>
+          <p><a href="https://80000hours.org/ai/guide/when-will-agi-arrive/" target="_blank" rel="noopener">80000hours.org/ai/guide/when-will-agi-arrive</a></p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#6F7D4E; --tab-ink:#F3EFE6; --z:5" data-question="escenarios-optimistas" tabindex="0">
+        <span class="folder-tab__label">Hay escenarios más optimistas?</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://ai-2040.com" target="_blank" rel="noopener">ai-2040.com</a></p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#F3EFE6; --tab-ink:#1A1E2E; --z:6" data-question="todo-es-terrible" tabindex="0">
+        <span class="folder-tab__label">Esto significa que todo el mundo que usa IA es terrible y horrible y nadie debería volver a usarla?</span>
+        <div class="folder-tab__answer">
+          <p>No. Armé esta página con Claude porque no sé programar.</p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#2E3F7F; --tab-ink:#F3EFE6; --z:7" data-question="newsletters" tabindex="0">
+        <span class="folder-tab__label">Qué newsletters puedo seguir que me actualicen en el tema?</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://thezvi.substack.com" target="_blank" rel="noopener">thezvi.substack.com</a></p>
+          <p><a href="https://aistop.watch" target="_blank" rel="noopener">aistop.watch</a></p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#B05038; --tab-ink:#F3EFE6; --z:8" data-question="actores-ai-safety" tabindex="0">
+        <span class="folder-tab__label">Quiero conocer a todos los actores involucrados en AI safety</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://aisafety.com" target="_blank" rel="noopener">aisafety.com</a></p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#6F7D4E; --tab-ink:#F3EFE6; --z:9" data-question="crear-contenido" tabindex="0">
+        <span class="folder-tab__label">Quiero crear contenido de AI safety!</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://plzdontkillus.com" target="_blank" rel="noopener">plzdontkillus.com</a></p>
+        </div>
+      </div>
+      <div class="folder-tab" style="--tab-color:#F3EFE6; --tab-ink:#1A1E2E; --z:10" data-question="iniciativa-estudiantil" tabindex="0">
+        <span class="folder-tab__label">Quiero unirme a una iniciativa estudiantil de estos temas</span>
+        <div class="folder-tab__answer">
+          <p><a href="https://aisuc.dev" target="_blank" rel="noopener">aisuc.dev</a> (no necesitás ser de la UC, sí de Chile al menos)</p>
+        </div>
+      </div>
     </div>
   </section>
 

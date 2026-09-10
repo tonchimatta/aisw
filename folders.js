@@ -157,17 +157,14 @@
 
     if (!wasDragging) return;
 
-    el.classList.remove('folder-tab--dragging');
-    el.style.zIndex = '';
-
     var list = items();
     var idx = list.indexOf(el);
     el.style.setProperty('--z', idx + 1);
 
-    el.style.transition = 'transform 180ms ease';
+    // Al sacar la clase vuelve a la transición base (altura + transform),
+    // así se anima junta: el cuerpo se pliega y la carpeta cae a su lugar.
+    el.classList.remove('folder-tab--dragging');
+    el.style.zIndex = '';
     el.style.transform = '';
-    window.setTimeout(function () {
-      el.style.transition = '';
-    }, 200);
   }
 })();

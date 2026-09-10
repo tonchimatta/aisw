@@ -252,12 +252,18 @@ a:hover {
 
 /* ---------------------------------------------------------------
    Cajón de carpetas
-   Cada botón es una carpeta de la pila. Por ahora solo muestran
-   la pregunta; el click va a disparar la animación de "sacar la
-   carpeta de la caja y abrirla" en una siguiente iteración.
+   Cada botón es una carpeta real: pestaña recortada + cuerpo, como
+   una carpeta de archivo de verdad. En reposo solo asoma la pestaña
+   y un borde del cuerpo, como si estuviera guardada en el cajón. Al
+   arrastrarla para reordenarla, el cuerpo entero se despliega — es
+   literal como sacarla del cajón — y ahí adentro se lee la pregunta
+   completa. El click para "abrirla" del todo es la próxima iteración.
 ----------------------------------------------------------------*/
 .folders {
   margin-top: clamp(56px, 10vh, 96px);
+  --folder-peek: 56px;
+  --folder-full: 300px;
+  --folder-tab-h: 36px;
 }
 
 .folders__caption {
@@ -281,20 +287,16 @@ a:hover {
   text-align: left;
   font: inherit;
   border: none;
-  border-radius: 16px 16px 5px 5px;
-  background: var(--tab-color);
-  color: var(--tab-ink, #2B2013);
-  padding: 20px 26px;
+  background: none;
+  padding: 0;
   margin-top: -16px;
+  height: var(--folder-peek);
   z-index: var(--z);
   cursor: grab;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  box-shadow:
-    0 -1px 0 rgba(0, 0, 0, 0.06) inset,
-    0 10px 18px -12px rgba(26, 30, 46, 0.35);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition: height 260ms ease, transform 180ms ease;
 }
 
 .folder-tab:first-child {
@@ -302,10 +304,7 @@ a:hover {
 }
 
 .folder-tab:hover {
-  transform: translateY(-6px) rotate(-0.3deg);
-  box-shadow:
-    0 -1px 0 rgba(0, 0, 0, 0.06) inset,
-    0 18px 26px -14px rgba(26, 30, 46, 0.4);
+  transform: translateY(-4px);
 }
 
 .folder-tab:active {
@@ -318,31 +317,95 @@ a:hover {
   z-index: 20;
 }
 
-/* Mientras se está reordenando con el dedo o el mouse */
+/* Mientras se está sacando del cajón para reordenarla */
 .folder-tab--dragging {
   cursor: grabbing;
-  transition: none;
-  box-shadow:
-    0 -1px 0 rgba(0, 0, 0, 0.08) inset,
-    0 22px 32px -12px rgba(26, 30, 46, 0.45);
+  height: var(--folder-full);
+  transition: height 260ms ease; /* el transform la sigue al instante, sin easing */
 }
 
-.folder-tab__label {
-  display: block;
+/* El cuerpo de la carpeta: la hoja grande de atrás */
+.folder-tab__body {
+  position: absolute;
+  inset: calc(var(--folder-tab-h) - 8px) 0 0 0;
+  background: var(--tab-color);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.06) 65%);
+  border-radius: 3px 3px 16px 16px;
+  box-shadow: 0 14px 22px -16px rgba(26, 30, 46, 0.45);
+}
+
+/* Líneas del pliegue inferior, como una carpeta con hojas adentro */
+.folder-tab__body::after {
+  content: "";
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  bottom: 22px;
+  height: 10px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.16) 0 1.5px,
+    transparent 1.5px 6px
+  );
+  opacity: 0.5;
+}
+
+/* La pestaña: recortada, más angosta que el cuerpo, sobresale arriba */
+.folder-tab__tab {
+  position: absolute;
+  top: 0;
+  left: var(--tab-pos, 8%);
+  width: 42%;
+  height: var(--folder-tab-h);
+  background: var(--tab-color);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 70%);
+  border-radius: 9px 9px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  z-index: 1;
+}
+
+.folder-tab__tab-label {
   font-family: var(--display);
-  font-weight: 400;
-  font-size: clamp(15px, 2.1vw, 18px);
-  line-height: 1.35;
-  max-width: 46ch;
+  font-size: clamp(13px, 1.7vw, 15px);
+  color: var(--tab-ink, #2B2013);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* La pregunta completa: solo se lee cuando la carpeta está afuera */
+.folder-tab__full {
+  position: absolute;
+  inset: calc(var(--folder-tab-h) + 18px) 24px auto 24px;
+  font-family: var(--display);
+  font-size: clamp(17px, 2.3vw, 21px);
+  line-height: 1.4;
+  color: var(--tab-ink, #2B2013);
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.folder-tab--dragging .folder-tab__full {
+  opacity: 1;
+  transition: opacity 220ms ease 90ms;
 }
 
 @media (max-width: 640px) {
-  .folder-tab {
-    padding: 16px 20px;
-    margin-top: -12px;
-    border-radius: 13px 13px 4px 4px;
+  .folders {
+    --folder-peek: 46px;
+    --folder-full: 240px;
+    --folder-tab-h: 30px;
   }
-  .folder-tab__label {
-    max-width: none;
+  .folder-tab {
+    margin-top: -12px;
+  }
+  .folder-tab__tab {
+    width: 52%;
+  }
+  .folder-tab__full {
+    inset: calc(var(--folder-tab-h) + 14px) 18px auto 18px;
   }
 }

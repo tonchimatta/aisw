@@ -6,6 +6,7 @@
   'use strict';
 
   var PATTERN = '010101010';
+  var COLS    = 4;          // columnas de dígitos por borde
 
   // Parámetros de la simulación
   var LINE_HEIGHT   = 22;   // separación vertical entre dígitos
@@ -47,31 +48,39 @@
     edges.forEach(function (edge) {
       edge.el.innerHTML = '';
       var frag = document.createDocumentFragment();
+      var colWidth = edge.el.clientWidth / COLS;
 
-      for (var i = 0; i < count; i++) {
-        var span = document.createElement('span');
-        span.className = 'bit';
-        span.textContent = PATTERN.charAt(i % PATTERN.length);
-        span.style.top = (i * lineHeight) + 'px';
-        frag.appendChild(span);
+      for (var col = 0; col < COLS; col++) {
+        for (var i = 0; i < count; i++) {
+          var span = document.createElement('span');
+          span.className = 'bit';
+          // Cada columna arranca en un punto distinto del patrón para
+          // que las cuatro no queden idénticas, tejiendo una textura.
+          span.textContent = PATTERN.charAt((i + col) % PATTERN.length);
+          span.style.top = (i * lineHeight) + 'px';
+          span.style.left = (col * colWidth) + 'px';
+          span.style.width = colWidth + 'px';
+          frag.appendChild(span);
 
-        var bit = {
-          el: span,
-          index: i,
-          x: 0, y: 0,
-          vx: 0, vy: 0,
-          homeX: 0, homeY: 0,
-          rot: 0,
-          pinned: false,
-          spring: 1,
-          recover: 0,
-          phase: Math.random() * Math.PI * 2,
-          speed: 0.25 + Math.random() * 0.35,
-          side: edge.side,
-          baseX: 0, baseY: 0
-        };
-        span.__bit = bit;
-        bits.push(bit);
+          var bit = {
+            el: span,
+            index: i,
+            col: col,
+            x: 0, y: 0,
+            vx: 0, vy: 0,
+            homeX: 0, homeY: 0,
+            rot: 0,
+            pinned: false,
+            spring: 1,
+            recover: 0,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.25 + Math.random() * 0.35,
+            side: edge.side,
+            baseX: 0, baseY: 0
+          };
+          span.__bit = bit;
+          bits.push(bit);
+        }
       }
 
       edge.el.appendChild(frag);

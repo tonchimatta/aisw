@@ -131,6 +131,39 @@
     pointer.y = -9999;
   });
 
+  // En touch, en cuanto el navegador toma el gesto como scroll de la
+  // página deja de mandar pointermove para ese dedo (manda un
+  // pointercancel y listo) — la repelencia se quedaría congelada donde
+  // arrancó el scroll. touchmove sí se sigue disparando durante el
+  // scroll nativo, así que la usamos en paralelo solo para actualizar
+  // dónde está el dedo, sin tocar el scroll (todo pasivo).
+  function setPointerFromTouch(e) {
+    var t = e.touches && e.touches[0];
+    if (!t) return;
+    pointer.x = t.clientX;
+    pointer.y = t.clientY;
+    pointer.active = true;
+  }
+
+  window.addEventListener('touchstart', setPointerFromTouch, { passive: true });
+  window.addEventListener('touchmove', setPointerFromTouch, { passive: true });
+
+  window.addEventListener('touchend', function (e) {
+    if (!drag && (!e.touches || !e.touches.length)) {
+      pointer.active = false;
+      pointer.x = -9999;
+      pointer.y = -9999;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchcancel', function () {
+    if (!drag) {
+      pointer.active = false;
+      pointer.x = -9999;
+      pointer.y = -9999;
+    }
+  }, { passive: true });
+
   window.addEventListener('pointerdown', function (e) {
     setPointer(e);
     down = { x: e.clientX, y: e.clientY, t: performance.now(), moved: 0 };
